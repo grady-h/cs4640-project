@@ -1,3 +1,5 @@
+console.log('app.js loaded')
+
 const navToggle = document.querySelector('.nav-toggle');
 const siteNav = document.getElementById('site-nav');
 const mqMobile = window.matchMedia('(max-width: 680px)');
@@ -135,3 +137,57 @@ if (filterBtn) {
     announce('Filter applied');
   });
 }
+
+
+// handle user signups
+const signupForm = document.getElementById('signup-form');
+const signupError = document.getElementById('signup-error');
+
+if (signupForm) {
+signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(signupForm);
+    const res = await fetch('controller.php?action=signup', { method: 'POST', body: formData });
+    const json = await res.json();
+
+    if (json.success) {
+    announce('Signup successful!');
+    // console.log('Before hash change:', location.hash);
+    location.hash = '#dashboard';
+    // console.log('After hash change:', location.hash);
+    } else {
+    signupError.textContent = json.message || 'Signup failed.';
+    signupError.style.display = 'block';
+    }
+});
+}
+
+
+// handl user logins
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    // dont do normal form behavior (redirect with fields in url)
+    e.preventDefault();
+
+    const formData = new FormData(loginForm);
+    const res = await fetch('controller.php?action=login', {
+      method: 'POST',
+      body: formData
+    });
+    const json = await res.json();
+
+    if (json.success) {
+      announce('Login successful!');
+      location.hash = '#dashboard';  // redrect
+      loginError.style.display = 'none';
+    } else {
+      loginError.textContent = json.message || 'Login failed.';
+      loginError.style.display = 'block';
+    }
+  });
+}
+

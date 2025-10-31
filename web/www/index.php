@@ -6,14 +6,14 @@
   <title>PLWeb – SWE Job Search + Interview Prep Tracker</title>
   <meta name="description" content="Track coding prep, applications, OAs, and interviews in one place.">
   <link rel="stylesheet" href="styles/style.css">
-  <script defer src="scripts/app.js?v=2"></script>
+  <script defer src="scripts/app.js?v=3"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="site-header">
     <div class="brand">
-      <span class="logo" aria-hidden="true">💼</span>
+      <!-- <span class="logo" aria-hidden="true">bruh</span> -->
       <p class="tagline">SWE Job Search + Interview Prep Tracker</p>
     </div>
 
@@ -300,13 +300,14 @@
       </table>
     </section>
 
+
     <section id="login" class="view auth" aria-labelledby="h-login">
       <header class="view-header">
         <h2 id="h-login">Log in</h2>
-        <p class="view-desc">Validate email format and minimum password length (client-side only).</p>
+        <!-- <p class="view-desc">Validate email format and minimum password length (client-side only).</p> -->
       </header>
 
-      <form class="auth-form">
+      <form id="login-form" class="auth-form">
         <div class="form-field">
           <label for="login-email">Email</label>
           <input id="login-email" name="email" type="email" autocomplete="email" required
@@ -314,13 +315,18 @@
         </div>
         <div class="form-field">
           <label for="login-password">Password</label>
-          <input id="login-password" name="password" type="password" minlength="8" required
+          <input id="login-password" name="password" type="password" required
                  placeholder="At least 8 characters">
         </div>
         <button type="submit">Log in</button>
-        <p class="muted">For Sprint 2 this is a static mockup.</p>
+        <!-- <p class="muted">For Sprint 2 this is a static mockup.</p> -->
       </form>
+
+        <p id="login-error" class="muted" style="color: var(--danger); display:none;"></p>
+
     </section>
+
+
 
     <section id="signup" class="view auth" aria-labelledby="h-signup">
       <header class="view-header">
@@ -328,7 +334,7 @@
         <p class="view-desc">Front-end validation; pattern enforces a strong password example.</p>
       </header>
 
-      <form class="auth-form">
+      <form id="signup-form" class="auth-form" >
         <div class="form-field">
           <label for="signup-name">Name</label>
           <input id="signup-name" name="name" autocomplete="name" required placeholder="First Last">
@@ -350,6 +356,7 @@
 
         <button type="submit">Create account</button>
       </form>
+      <p id="signup-error" class="muted" style="color: var(--danger); display:none;"></p>
     </section>
   </main>
 

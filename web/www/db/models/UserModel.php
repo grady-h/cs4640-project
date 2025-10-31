@@ -42,5 +42,37 @@ class UserModel {
             ];
         }
     }
+
+    // validation for user logins
+    public static function login($db, $email, $password) {
+        try {
+            $user = $db->query("SELECT id, name, password_hash FROM users WHERE email = $1", $email);
+            
+            // user doesnt exist
+            if (!$user || count($user) === 0) {
+                return ['success' => false, 'message' => 'Invalid email or password'];
+            }
+
+            $userData = $user[0];
+
+            // verify pass
+            if (!password_verify($password, $userData['password_hash'])) {
+                return ['success' => false, 'message' => 'Invalid email or password'];
+            }
+
+            // save jaunts to the session info
+            $_SESSION['user_id'] = $userData['id'];
+            $_SESSION['user_name'] = $userData['name'];
+
+            return [
+                'success' => true,
+                'message' => 'Login successful',
+                'user_name' => $userData['name']
+            ];
+        } catch (Exception $e) {
+            return ['success' => false, 'message' => $e->getMessage()];
+        }
+    }
+
 }
-?>
+

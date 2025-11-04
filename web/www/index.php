@@ -1,3 +1,14 @@
+<?php
+// Hosted URL: https://cs4640.cs.virginia.edu/rvv7fp/project/index.php
+session_start();
+if (empty($_SESSION['csrf'])) {
+  $_SESSION['csrf'] = bin2hex(random_bytes(16));
+}
+$csrf = htmlspecialchars($_SESSION['csrf'], ENT_QUOTES, 'UTF-8');
+
+$lastCompany = isset($_COOKIE['lastCompany']) ? htmlspecialchars($_COOKIE['lastCompany'], ENT_QUOTES, 'UTF-8') : '';
+$lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'], ENT_QUOTES, 'UTF-8') : '';
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,7 +24,6 @@
 
   <header class="site-header">
     <div class="brand">
-      <!-- <span class="logo" aria-hidden="true">bruh</span> -->
       <p class="tagline">SWE Job Search + Interview Prep Tracker</p>
     </div>
 
@@ -40,7 +50,7 @@
     <section id="dashboard" class="view" aria-labelledby="h-dashboard">
       <header class="view-header">
         <h2 id="h-dashboard">Dashboard</h2>
-        <p class="view-desc">At-a-glance prep and job hunt metrics (dummy data for Sprint 2).</p>
+        <p class="view-desc">At-a-glance prep and job hunt metrics (sample data).</p>
       </header>
 
       <div class="cards">
@@ -142,23 +152,25 @@
           </tr>
         </tbody>
       </table>
-      <p id="p-help" class="muted">Use search/difficulty filters. Status changes are local only in Sprint 2.</p>
+      <p id="p-help" class="muted">Use search/difficulty filters. Status changes are local only.</p>
     </section>
 
     <section id="applications" class="view" aria-labelledby="h-apps">
       <header class="view-header">
         <h2 id="h-apps">Application Tracker</h2>
-        <p class="view-desc">Log companies, roles, dates, and status. (No backend yet.)</p>
+        <p class="view-desc">Log companies, roles, dates, and status. (Log in to add & view yours.)</p>
       </header>
 
       <form class="grid-form" id="app-form" aria-labelledby="h-add-app">
         <h3 id="h-add-app">Add application</h3>
 
+        <input type="hidden" name="csrf" value="<?php echo $csrf; ?>">
+
         <label for="app-company">Company <span aria-hidden="true">*</span></label>
-        <input id="app-company" name="company" required maxlength="80" placeholder="e.g., Databricks">
+        <input id="app-company" name="company" required maxlength="80" placeholder="e.g., Databricks" value="<?php echo $lastCompany; ?>">
 
         <label for="app-role">Role <span aria-hidden="true">*</span></label>
-        <input id="app-role" name="role" required maxlength="80" placeholder="e.g., New Grad SWE">
+        <input id="app-role" name="role" required maxlength="80" placeholder="e.g., New Grad SWE" value="<?php echo $lastRole; ?>">
 
         <label for="app-date">Date applied</label>
         <input id="app-date" name="date" type="date">
@@ -177,40 +189,30 @@
       </form>
 
       <table class="table">
-        <caption>Applications (sample)</caption>
+        <caption>Applications</caption>
         <thead>
           <tr>
             <th scope="col">Company</th>
             <th scope="col">Role</th>
             <th scope="col">Applied</th>
             <th scope="col">Status</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody id="apps-body">
-          <tr>
-            <th scope="row">Parafin</th>
-            <td>Software Engineer</td>
-            <td>2025-10-05</td>
-            <td><span class="badge inprogress">Interview</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Databricks</th>
-            <td>New Grad SWE</td>
-            <td>2025-10-07</td>
-            <td><span class="badge submitted">Submitted</span></td>
-          </tr>
-        </tbody>
+        <tbody id="apps-body"></tbody>
       </table>
     </section>
 
     <section id="oas" class="view" aria-labelledby="h-oas">
       <header class="view-header">
         <h2 id="h-oas">Online Assessment (OA) Tracker</h2>
-        <p class="view-desc">Record OA invitations and outcomes.</p>
+        <p class="view-desc">Record OA invitations and outcomes. (Log in to add & view yours.)</p>
       </header>
 
       <form class="grid-form" id="oa-form" aria-labelledby="h-add-oa">
         <h3 id="h-add-oa">Add OA</h3>
+
+        <input type="hidden" name="csrf" value="<?php echo $csrf; ?>">
 
         <label for="oa-company">Company <span aria-hidden="true">*</span></label>
         <input id="oa-company" name="company" required placeholder="e.g., Parafin">
@@ -229,32 +231,29 @@
       </form>
 
       <table class="table">
-        <caption>OA list (sample)</caption>
+        <caption>OA list</caption>
         <thead>
           <tr>
             <th scope="col">Company</th>
             <th scope="col">Received</th>
             <th scope="col">Status</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody id="oas-body">
-          <tr>
-            <th scope="row">Parafin</th>
-            <td>2025-10-03</td>
-            <td><span class="badge pass">Completed – Pass</span></td>
-          </tr>
-        </tbody>
+        <tbody id="oas-body"></tbody>
       </table>
     </section>
 
     <section id="interviews" class="view" aria-labelledby="h-interviews">
       <header class="view-header">
         <h2 id="h-interviews">Interview Tracker</h2>
-        <p class="view-desc">Track stages across companies.</p>
+        <p class="view-desc">Track stages across companies. (Log in to add & view yours.)</p>
       </header>
 
       <form class="grid-form" id="int-form" aria-labelledby="h-add-int">
         <h3 id="h-add-int">Add interview</h3>
+
+        <input type="hidden" name="csrf" value="<?php echo $csrf; ?>">
 
         <label for="int-company">Company <span aria-hidden="true">*</span></label>
         <input id="int-company" name="company" required placeholder="e.g., Databricks">
@@ -280,34 +279,27 @@
       </form>
 
       <table class="table">
-        <caption>Interviews (sample)</caption>
+        <caption>Interviews</caption>
         <thead>
           <tr>
             <th scope="col">Company</th>
             <th scope="col">Stage</th>
             <th scope="col">Date</th>
             <th scope="col">Result</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody id="ints-body">
-          <tr>
-            <th scope="row">Parafin</th>
-            <td>Onsite</td>
-            <td>2025-10-08</td>
-            <td><span class="badge pass">Pass</span></td>
-          </tr>
-        </tbody>
+        <tbody id="ints-body"></tbody>
       </table>
     </section>
-
 
     <section id="login" class="view auth" aria-labelledby="h-login">
       <header class="view-header">
         <h2 id="h-login">Log in</h2>
-        <!-- <p class="view-desc">Validate email format and minimum password length (client-side only).</p> -->
       </header>
 
       <form id="login-form" class="auth-form">
+        <input type="hidden" name="csrf" value="<?php echo $csrf; ?>">
         <div class="form-field">
           <label for="login-email">Email</label>
           <input id="login-email" name="email" type="email" autocomplete="email" required
@@ -319,14 +311,10 @@
                  placeholder="At least 8 characters">
         </div>
         <button type="submit">Log in</button>
-        <!-- <p class="muted">For Sprint 2 this is a static mockup.</p> -->
       </form>
 
-        <p id="login-error" class="muted" style="color: var(--danger); display:none;"></p>
-
+      <p id="login-error" class="muted" style="color: var(--danger); display:none;"></p>
     </section>
-
-
 
     <section id="signup" class="view auth" aria-labelledby="h-signup">
       <header class="view-header">
@@ -334,7 +322,8 @@
         <p class="view-desc">Front-end validation; pattern enforces a strong password example.</p>
       </header>
 
-      <form id="signup-form" class="auth-form" >
+      <form id="signup-form" class="auth-form">
+        <input type="hidden" name="csrf" value="<?php echo $csrf; ?>">
         <div class="form-field">
           <label for="signup-name">Name</label>
           <input id="signup-name" name="name" autocomplete="name" required placeholder="First Last">
@@ -349,9 +338,9 @@
         <div class="form-field">
           <label for="signup-password">Password</label>
           <input id="signup-password" name="password" type="password" required
-                 pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_\-=+]{8,}"
-                 title="Min 8 chars, include letters & numbers"
-                 placeholder="Min 8 chars, letters & numbers">
+          pattern="^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9!@#$%^&*()_+=-]{8,}$"
+          title="Min 8 chars, include letters & numbers"
+          placeholder="Min 8 chars, letters & numbers">
         </div>
 
         <button type="submit">Create account</button>
@@ -361,7 +350,7 @@
   </main>
 
   <footer class="site-footer">
-    <p><strong>PLWeb</strong> · A CS 4640 project mockup for Sprint 2.</p>
+    <p><strong>PLWeb</strong> · A CS 4640 project mockup.</p>
     <p><a href="#login">Login</a> · <a href="#signup">Sign up</a> · <a href="#dashboard">Back to dashboard</a></p>
   </footer>
 

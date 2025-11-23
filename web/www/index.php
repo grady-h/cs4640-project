@@ -17,7 +17,10 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
   <title>PLWeb – SWE Job Search + Interview Prep Tracker</title>
   <meta name="description" content="Track coding prep, applications, OAs, and interviews in one place.">
   <link rel="stylesheet" href="styles/style.css">
-  <script defer src="scripts/app.js?v=3"></script>
+  <!-- jQuery is used on the LeetCode screen for filtering behavior -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
+  <script defer src="scripts/app.js?v=4"></script>
+  <script defer src="scripts/leetcode-jq.js?v=1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -51,6 +54,9 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
       <header class="view-header">
         <h2 id="h-dashboard">Dashboard</h2>
         <p class="view-desc">At-a-glance prep and job hunt metrics (sample data).</p>
+        <button type="button" id="toggle-focus" class="secondary-btn">
+          Toggle focus mode
+        </button>
       </header>
 
       <div class="cards">
@@ -185,6 +191,7 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
         </select>
 
         <button type="submit">Add</button>
+        <p id="app-error" class="form-error" aria-live="polite"></p>
         <p class="muted">Required fields are marked *</p>
       </form>
 
@@ -222,12 +229,13 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
 
         <label for="oa-status">Status</label>
         <select id="oa-status" name="status">
-          <option>Pending</option>
-          <option>Completed – Pass</option>
-          <option>Completed – Fail</option>
+          <option value="Pending">Pending</option>
+          <option value="Passed">Completed – Pass</option>
+          <option value="Failed">Completed – Fail</option>
         </select>
 
         <button type="submit">Add</button>
+        <p id="oa-error" class="form-error" aria-live="polite"></p>
       </form>
 
       <table class="table">
@@ -276,6 +284,7 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
         </select>
 
         <button type="submit">Add</button>
+        <p id="int-error" class="form-error" aria-live="polite"></p>
       </form>
 
       <table class="table">
@@ -313,7 +322,7 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
         <button type="submit">Log in</button>
       </form>
 
-      <p id="login-error" class="muted" style="color: var(--danger); display:none;"></p>
+      <p id="login-error" class="form-error" aria-live="polite" style="display:none;"></p>
     </section>
 
     <section id="signup" class="view auth" aria-labelledby="h-signup">
@@ -345,7 +354,8 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
 
         <button type="submit">Create account</button>
       </form>
-      <p id="signup-error" class="muted" style="color: var(--danger); display:none;"></p>
+      <p id="password-hint" class="muted" aria-live="polite"></p>
+      <p id="signup-error" class="form-error" aria-live="polite" style="display:none;"></p>
     </section>
   </main>
 

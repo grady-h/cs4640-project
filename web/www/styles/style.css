@@ -160,6 +160,53 @@ details[open] > summary { color: var(--accent-2); }
   border-top: 1px solid rgba(255,255,255,.08);
 }
 
+/* ---------- new helper styles ---------- */
+
+.form-error {
+  color: var(--danger);
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+.grid-form .form-error {
+  grid-column: 1 / -1;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  margin-top: 8px;
+  padding: 6px 10px;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Focus mode dashboard layout */
+body.focus-mode .cards {
+  grid-template-columns: 1fr;
+}
+
+body.focus-mode .card {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px rgba(115, 224, 169, 0.5);
+}
+
+/* Table row highlights / state styling */
+.row-hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.row-offer {
+  border-left: 4px solid var(--accent-2);
+}
+
+.row-rejected {
+  opacity: 0.7;
+}
+
 @media (max-width: 1000px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
   .toolbar { grid-template-columns: 1fr 1fr 1fr auto; }

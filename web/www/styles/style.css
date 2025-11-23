@@ -1,6 +1,6 @@
-/* Varun Togaru: controller */
-/* Abhinav Pasula: updated app.js */
-/* Grady Hollar: db models + setup */
+/* Varun Togaru: Dashboard focus mode, nav tweaks, shared JS helpers */
+/* Abhinav Pasula: Applications/OAs/Interviews AJAX, table DOM updates, validation */
+/* Grady Hollar: LeetCode jQuery filters, login/signup validation, CSS/style updates */
 
 :root {
     --bg: #0f1115;
@@ -160,8 +160,6 @@ details[open] > summary { color: var(--accent-2); }
   border-top: 1px solid rgba(255,255,255,.08);
 }
 
-/* ---------- new helper styles ---------- */
-
 .form-error {
   color: var(--danger);
   margin-top: 4px;
@@ -184,7 +182,6 @@ details[open] > summary { color: var(--accent-2); }
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* Focus mode dashboard layout */
 body.focus-mode .cards {
   grid-template-columns: 1fr;
 }
@@ -194,7 +191,6 @@ body.focus-mode .card {
   box-shadow: 0 0 0 1px rgba(115, 224, 169, 0.5);
 }
 
-/* Table row highlights / state styling */
 .row-hover {
   background: rgba(255, 255, 255, 0.04);
 }

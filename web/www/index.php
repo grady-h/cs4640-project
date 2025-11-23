@@ -17,7 +17,6 @@ $lastRole = isset($_COOKIE['lastRole']) ? htmlspecialchars($_COOKIE['lastRole'],
   <title>PLWeb – SWE Job Search + Interview Prep Tracker</title>
   <meta name="description" content="Track coding prep, applications, OAs, and interviews in one place.">
   <link rel="stylesheet" href="styles/style.css">
-  <!-- jQuery is used on the LeetCode screen for filtering behavior -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
   <script defer src="scripts/app.js?v=4"></script>
   <script defer src="scripts/leetcode-jq.js?v=1"></script>

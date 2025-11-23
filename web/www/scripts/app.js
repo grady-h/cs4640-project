@@ -4,14 +4,12 @@ const navToggle = document.querySelector('.nav-toggle');
 const siteNav = document.getElementById('site-nav');
 const mqMobile = window.matchMedia('(max-width: 680px)');
 
-// JS object used to track dashboard summary counts
 const dashboardStats = {
   applications: 0,
   oas: 0,
   interviews: 0
 };
 
-// Anonymous IIFE returning small validation helper module
 const validationHelpers = (function () {
   function setError(elementOrId, message) {
     const el = typeof elementOrId === 'string'
@@ -32,7 +30,6 @@ const validationHelpers = (function () {
   };
 })();
 
-// nav + layout helpers
 function setNav(open) {
   if (!navToggle || !siteNav) return;
   navToggle.setAttribute('aria-expanded', String(open));
@@ -59,7 +56,6 @@ if (navToggle && siteNav) {
   window.addEventListener('DOMContentLoaded', initOrResize);
 }
 
-// Dashboard "focus mode" – toggles layout & card styling
 const focusToggle = document.getElementById('toggle-focus');
 if (focusToggle) {
   focusToggle.addEventListener('click', () => {
@@ -69,7 +65,6 @@ if (focusToggle) {
   });
 }
 
-// Utility announcement for screen readers & subtle feedback
 function announce(msg) {
   const lr = document.getElementById('live-region');
   if (lr) {
@@ -92,7 +87,6 @@ function th(text) {
   return el;
 }
 
-// Generic fetch-based helper for most API calls
 async function api(action, opts = {}) {
   const method = opts.method || 'GET';
   const url = `controller.php?action=${encodeURIComponent(action)}`;
@@ -108,7 +102,6 @@ function getCsrf(selector) {
   return document.querySelector(selector)?.value || '';
 }
 
-// Update dashboard cards from dashboardStats object
 function updateDashboardCounts() {
   const appsEl = document.getElementById('stat-apps');
   const intsEl = document.getElementById('stat-interviews');
@@ -116,7 +109,6 @@ function updateDashboardCounts() {
   if (intsEl) intsEl.textContent = dashboardStats.interviews;
 }
 
-// ----- Applications -----
 
 const appForm = document.getElementById('app-form');
 const appsBody = document.getElementById('apps-body');
@@ -187,14 +179,6 @@ function renderAppRow(row) {
   return tr;
 }
 
-/**
- * loadApps
- * ----------
- * Uses a classic XMLHttpRequest (AJAX) call to retrieve the user's
- * applications as JSON from controller.php and then updates the DOM.
- * This explicitly satisfies the sprint requirement to use
- * "jQuery or XMLHTTPRequest" for an asynchronous AJAX query.
- */
 function loadApps() {
   if (!appsBody) return;
 
@@ -226,7 +210,6 @@ if (appForm && appsBody) {
   appForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // client-side validation for application form
     if (!appForm.reportValidity()) return;
     const company = appForm.company.value.trim();
     const role = appForm.role.value.trim();
@@ -249,8 +232,6 @@ if (appForm && appsBody) {
     }
   });
 }
-
-// ----- OAs -----
 
 const oaForm = document.getElementById('oa-form');
 const oasBody = document.getElementById('oas-body');
@@ -346,7 +327,6 @@ if (oaForm && oasBody) {
   });
 }
 
-// ----- Interviews -----
 
 const intForm = document.getElementById('int-form');
 const intsBody = document.getElementById('ints-body');
@@ -444,7 +424,6 @@ if (intForm && intsBody) {
   });
 }
 
-// ----- Auth (signup / login) -----
 
 const signupForm = document.getElementById('signup-form');
 const signupError = document.getElementById('signup-error');
@@ -546,7 +525,6 @@ if (loginForm) {
   });
 }
 
-// ----- Navigation between views -----
 
 const links = Array.from(document.querySelectorAll('a.nav-link'));
 const views = document.querySelectorAll('.view');

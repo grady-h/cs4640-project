@@ -1,8 +1,3 @@
-// jQuery-powered behaviors for the LeetCode / Prep Tracker screen
-// - Filters rows by search text and difficulty
-// - Updates helper text with count
-// - Adds hover highlight on problem rows
-
 $(function () {
   const $problemsBody = $('#problems-body');
   const $rows = $problemsBody.find('tr');
@@ -39,14 +34,12 @@ $(function () {
     applyFilters();
   });
 
-  // Also filter when the user hits Enter in the search field
   $textFilter.on('keyup', function (event) {
     if (event.key === 'Enter') {
       applyFilters();
     }
   });
 
-  // Row hover styling using jQuery event delegation
   $problemsBody
     .on('mouseenter', 'tr', function () {
       $(this).addClass('row-hover');
